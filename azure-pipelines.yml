@@ -8,22 +8,25 @@ trigger:
 
 pool:
   name: azure
-  demands:
-   - agent.name -equals azure
-
 
 steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '5.x'
-
+    version: '7.0'
 - task: NuGetToolInstaller@1
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
     restoreSolution: '**/*.sln'
-    feedsToUse: 'select'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
+- task: CopyFiles@2
+  inputs:
+    targetFolder: '$(Build.ArtifactStagingDirectory)'    
+
+- task: PublishBuildArtifacts@1    
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
