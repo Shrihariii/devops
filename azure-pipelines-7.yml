@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: azure
+  name: azure
 
 steps:
 - task: UseDotNet@2
